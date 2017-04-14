@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  <script src='{% static "lightbox/dist/js/lightbox-plus-jquery.min.js" %}'></script>
+  <div class="well">
+    {% if object.image %}
+      <img src='{{ object.image.url }}' class='img-responsive' />
+    {% else %}
+      <img src='{% static "images/default_image.jpg" %}' class='img-responsive' />
+    {% endif %}
+    <h3>Title: {{ object.title }}</h3>
+    <h3>Description: {{ object.description }}</h3>
+    <h3>Price: {{ object.price }} $</h3>
+    {% if object.photos %}
+      <h3>Photos:</h3>
+      {% for photo in object.photos %}
+        <a data-lightbox="example-set" href='{{ photo.image.url }}'>
+          <img src='{{ photo.image_small.url }}' class='img-responsive img-thumbnail' />
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

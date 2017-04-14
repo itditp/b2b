@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  {% if user.is_authenticated %}
+    <button
+      type="button"
+      class="btn btn-default btn-lg btn_margin"
+      data-toggle="modal"
+      data-target="#myModal">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add item
+    </button>
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Create item</h4>
+            {% include 'goods/form_item.html' %}
+          </div>
+          <div align='center' class="modal-body">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  {% endif %}
+  <div align="center" class="row">
+    {% for obj in object_list %}
+    <div id='item-{{obj.pk}}' class="col-sm-4 category-item">
+      <div class="caption category-img">
+        {% if obj.image %}
+          <img src='{{ obj.image.url }}' class='img-responsive' />
+        {% else %}
+          <img src='{% static "images/default_image.jpg" %}' class='img-responsive' />
+        {% endif %}
+      </div>
+        <h3>
+          <a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a>
+        </h3>
+    </div>
+        {% empty %}
+            <h1>No goods</h1>
+        {% endfor %}
+  </div>
+{% endblock %}

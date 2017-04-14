@@ -1,0 +1,18 @@
+body {
+  background-color: #F0FFF6;
+}
+.category-img {
+  width: 270px;
+  height: 220px;
+  display: table-cell;
+  vertical-align: middle;
+  color: red;
+}
+
+.category-item {
+  margin-bottom: 40px;
+}
+
+.btn_margin {
+  margin-bottom: 20px;
+}

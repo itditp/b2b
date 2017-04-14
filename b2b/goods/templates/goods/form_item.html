@@ -1,0 +1,8 @@
+{% load crispy_forms_tags %}
+<form action='/goods/create/' id="item-form"  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Save" />
+</form>
+
+{# {% include 'goods/form_item.html' %}#}
