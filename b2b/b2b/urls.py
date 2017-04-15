@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^contacts/', include("mails.urls", namespace='mails')),
     url(r'^goods/', include("goods.urls", namespace='goods')),
     url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),
 ]

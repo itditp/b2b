@@ -19,7 +19,7 @@
     <div align="center" class='container'>
     <ol class='breadcrumb'>
         <li><a href='{% url "index" %}'>Home</a></li>
-        {# <li><a href='{% url "contacts" %}'>Contacts</a></li>#}
+        <li><a href='{% url "mails:contacts_index" %}'>Contacts</a></li>
         <li><a href='{% url "goods:list" %}'>Goods</a></li>
     </ol>
       {% block content %}
@@ -33,6 +33,9 @@
       crossorigin="anonymous"></script>
       <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
       <script src="http://malsup.github.com/jquery.form.js"></script>
-      <script src='{% static "js/manage_item.js" %}'></script>
+      <script src='{% static "js/send_mail.js" %}'></script>
+      <script src='{% static "js/create_item.js" %}'></script>
+      <script src='{% static "js/delete_item.js" %}'></script>
+      <script src='{% static "js/update_item.js" %}'></script>
   </body>
 </html>

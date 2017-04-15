@@ -17,4 +17,3 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/edit/$', ItemUpdate.as_view(), name='update'),
     url(r'^(?P<pk>\d+)/delete/$', ItemDelete.as_view(), name='delete'),
 ]
-

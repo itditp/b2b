@@ -15,4 +15,3 @@ class ItemModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Item, ItemModelAdmin)
-

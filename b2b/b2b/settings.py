@@ -26,7 +26,15 @@ SECRET_KEY = 'ptt)g_h_@r!avlg03*uvtt%7$21osx=jr8oauwiov6n-2(p^sy'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+# for send_mail
+# python -m smtpd -n -c DebuggingServer localhost:1025
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
 
 # Application definition
 
@@ -38,9 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'goods',
+    'mails',
     'photos',
     'imagekit',
-    'crispy_forms'
+    'crispy_forms',
+    'floppyforms'
 ]
 
 MIDDLEWARE_CLASSES = [

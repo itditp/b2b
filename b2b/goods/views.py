@@ -2,8 +2,9 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404, HttpResponse
 import json
+
 
 from .forms import NewItem
 from .models import Item
@@ -16,13 +17,19 @@ class GoodsListView(ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(GoodsListView, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
         context['form'] = NewItem
         return context
 
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'goods/detail.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ItemDetailView, self).get_context_data(**kwargs)
+        instance = context['object']
+        context['form'] = NewItem(instance=instance)
+        return context
 
 class AjaxableResponseMixin(object):
     """ Ajax form based on the django docs example.
@@ -88,29 +95,49 @@ class ItemCreate(AjaxableResponseMixin, CreateView):
                 return self.form_invalid(form)
         return super(ItemCreate, self).post(self, request, *args, **kwargs)
 
+
+
+
+
 class ItemUpdate(UpdateView):
     model = Item
-    template_name = 'form_item.html'
+    template_name = 'goods/update_form.html'
     form_class = NewItem
+
+    def form_valid(self, form):
+        """
+        If the request is ajax, save the form and return a json response.
+        Otherwise return super as expected.
+        """
+        if self.request.is_ajax():
+            self.object = form.save()
+            data = {
+            'pk': self.object.pk
+            }
+            return JsonResponse(data)
+        return super(ItemUpdate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        """
+        We haz errors in the form. If ajax, return them as json.
+        Otherwise, proceed as normal.
+        """
+        if self.request.is_ajax():
+            data = {
+            'status': 'error'
+            }
+            return JsonResponse(data)
+        return super(ItemUpdate, self).form_invalid(form)
+
 
 class ItemDelete(DeleteView):
     model = Item
+    success_url = '/goods'
 
-
-
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     Handles POST requests, instantiating a form instance with the passed
-    #     POST variables and then checked for validity.
-    #     """
-    #     response = super(ItemCreate, self).post(self, request, *args, **kwargs)
-    #     if request.is_ajax():
-    #         print(request.POST)
-    #         form = NewItem(request.POST, request=request)
-    #         if form.is_valid():
-    #             return self.form_valid(form)
-    #         else:
-    #             return self.form_invalid(form)
-    #     else:
-    #         response
-
+    def delete(self, request, *args, **kwargs):
+        if request.is_ajax():
+            self.object = self.get_object()
+            self.object.delete()
+            data = {'delete': 'ok'}
+            return JsonResponse(data)
+        return super(ItemDelete, self).delete(self, request, *args, **kwargs)

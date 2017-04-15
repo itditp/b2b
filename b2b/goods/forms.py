@@ -1,6 +1,9 @@
 from django import forms
 from .models import Item
+import floppyforms as formsImage
 
+class ImageThumbnailFileInput(formsImage.ClearableFileInput):
+    template_name = 'goods/image_thumbnail.html'
 
 class NewItem(forms.ModelForm):
     class Meta():
@@ -15,8 +18,8 @@ class NewItem(forms.ModelForm):
             'title': forms.TextInput(
                 attrs={'required': True, 'placeholder': 'title...'}
             ),
-            'description': forms.TextInput(
+            'description': forms.Textarea(
                 attrs={'required': True, 'placeholder': 'description...'}
-            )
+            ),
+            'image': ImageThumbnailFileInput
         }
-
