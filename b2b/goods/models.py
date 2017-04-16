@@ -2,6 +2,8 @@
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFill
 from photos.models import Photo
 
 class Item(models.Model):
@@ -11,6 +13,10 @@ class Item(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Описание товара')
     price = models.DecimalField(default=0, max_digits=5, decimal_places=2, verbose_name='Цена')
     image = models.FileField(upload_to='media/images/goods/', null=True, blank=True, verbose_name='Изображение')
+    image_small = ImageSpecField(source='image',
+                                 processors=[ResizeToFill(250, 200)],
+                                 format='PNG',
+                                 options={'quality': 60})
 
     class Meta:
         verbose_name = "Товар"

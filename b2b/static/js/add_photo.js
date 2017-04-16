@@ -11,26 +11,26 @@ $(document).ready(function() {
         'status_error:'+ error.status
       );
     }
-    
+
     function showResponse(json)  {
       // console.log(json);
       // console.log('YES');
 
       if (json.errors) {
-        $('#mail_errors').html('ERROR:'+json.errors.title);
+        $('#photo_errors').html('ERROR:'+json.errors.title);
         return;
       }
 
-      $( '#mail-form' ).each(function(){
+      $( '#add_photo' ).each(function(){
         this.reset();
       }); //clean form
 
-      $('#mail_errors').html('');
-      $('#myModal').modal('toggle');
-      toastr.success('your message has been successfully sent!'
+      $('#photo_errors').html('');
+      $('#myModal2').modal('toggle');
+      toastr.success('your photo has been successfully added!'
       );
     };
 
     // bind form using 'ajaxForm'
-    $('#mail-form').ajaxForm(options);
+    $('#add_photo').ajaxForm(options);
 });

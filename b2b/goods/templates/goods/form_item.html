@@ -2,7 +2,6 @@
 <form action='/goods/create/' id="item-form"  method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Save" />
+    <div id='create_errors'></div>
+    <button type="submit" class="btn btn-default">create</button>
 </form>
-
-{# {% include 'goods/form_item.html' %}#}

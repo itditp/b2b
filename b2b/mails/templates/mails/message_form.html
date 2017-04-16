@@ -2,5 +2,6 @@
 <form id="mail-form" action="/contacts/send-email/" method="post">
     {% csrf_token %}
     {{ form|crispy }}
+    <div id='mail_errors'></div>
     <button type="submit" class="btn btn-default">send message</button>
 </form>

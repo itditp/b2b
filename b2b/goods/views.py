@@ -9,6 +9,8 @@ import json
 from .forms import NewItem
 from .models import Item
 
+from photos.forms import NewPhoto
+
 
 class GoodsListView(ListView):
     model = Item
@@ -29,6 +31,10 @@ class ItemDetailView(DetailView):
         context = super(ItemDetailView, self).get_context_data(**kwargs)
         instance = context['object']
         context['form'] = NewItem(instance=instance)
+        initial_data = {
+            "item": instance
+        }
+        context['photo_form'] = NewPhoto(initial=initial_data)
         return context
 
 class AjaxableResponseMixin(object):
@@ -43,31 +49,29 @@ class AjaxableResponseMixin(object):
         return JsonResponse(context)
 
     def form_invalid(self, form):
-        response = super(AjaxableResponseMixin, self).form_invalid(form)
         if self.request.is_ajax():
-            return self.render_to_json_response(form.errors, status=400)
+            data = {
+            'errors': form.errors
+            }
+            return self.render_to_json_response(data)
 
-        return response
+        return super(AjaxableResponseMixin, self).form_invalid(form)
 
     def form_valid(self, form):
         response = super(AjaxableResponseMixin, self).form_valid(form)
         if self.request.is_ajax():
             # Request is ajax, send a json response
             url_detail = self.object.get_absolute_url()
+            data = {
+                'pk': self.object.pk,
+                'title': self.object.title,
+                'url_detail': url_detail
+            }
+
             if self.object.image:
-                data = {
-                    'pk': self.object.pk,
-                    'title': self.object.title,
-                    'image': self.object.image.url,
-                    'url_detail': url_detail
-                }
+                data['image'] = self.object.image_small.url
                 return self.render_to_json_response(data)
             else:
-                data = {
-                    'pk': self.object.pk,
-                    'title': self.object.title,
-                    'url_detail': url_detail
-                }
                 return self.render_to_json_response(data)
 
         return response  # Request isn't ajax, send normal response
@@ -111,8 +115,12 @@ class ItemUpdate(UpdateView):
         """
         if self.request.is_ajax():
             self.object = form.save()
+            image = self.object.image.url
             data = {
-            'pk': self.object.pk
+                'pk': self.object.pk,
+                'title': self.object.title,
+                'description': self.object.description,
+                'image': image
             }
             return JsonResponse(data)
         return super(ItemUpdate, self).form_valid(form)
@@ -124,7 +132,7 @@ class ItemUpdate(UpdateView):
         """
         if self.request.is_ajax():
             data = {
-            'status': 'error'
+            'errors': form.errors
             }
             return JsonResponse(data)
         return super(ItemUpdate, self).form_invalid(form)
