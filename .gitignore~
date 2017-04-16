@@ -14,7 +14,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-media_cdn/
 build/
 develop-eggs/
 dist/

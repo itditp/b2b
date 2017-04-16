@@ -13,8 +13,8 @@ $(document).ready(function() {
     }
 
     function showResponse(json)  {
-      // console.log(json);
-      // console.log('YES');
+      console.log(json);
+      console.log('YES');
 
       if (json.errors) {
         $('#photo_errors').html('ERROR:'+json.errors.title);
