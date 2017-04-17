@@ -108,6 +108,22 @@ class ItemUpdate(UpdateView):
     template_name = 'goods/update_form.html'
     form_class = NewItem
 
+    # def post(self, request, *args, **kwargs):
+    #     """
+    #     Handles POST requests, instantiating a form instance with the passed
+    #     POST variables and then checked for validity.
+    #     """
+    #     if self.request.is_ajax():
+    #         form = self.get_form()
+    #         if form.is_valid():
+    #             return super(ItemUpdate, self).form_valid(form)
+    #         else:
+    #             return self.form_invalid(form)
+    #     return super(ItemUpdate, self).post(request, *args, **kwargs)
+    #
+    # def put(self, *args, **kwargs):
+    #     return super(ItemUpdate, self).post(*args, **kwargs)
+
     def form_valid(self, form):
         """
         If the request is ajax, save the form and return a json response.
@@ -115,13 +131,14 @@ class ItemUpdate(UpdateView):
         """
         if self.request.is_ajax():
             self.object = form.save()
-            image = self.object.image.url
             data = {
                 'pk': self.object.pk,
                 'title': self.object.title,
-                'description': self.object.description,
-                'image': image
+                'description': self.object.description
             }
+            image = self.object.image
+            if image:
+                data['image'] = image.url
             return JsonResponse(data)
         return super(ItemUpdate, self).form_valid(form)
 

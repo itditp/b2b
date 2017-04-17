@@ -48,14 +48,11 @@ class PhotoCreate(AjaxableResponseMixin, CreateView):
         POST variables and then checked for validity.
         """
         if request.is_ajax():
-            print('ajaxPhoto')
             form = NewPhoto(request.POST or None, request.FILES or None)
             print(form)
             if form.is_valid():
-                print('valiiid')
                 return self.form_valid(form)
             else:
-                print('qqqqq')
                 return self.form_invalid(form)
         return super(PhotoCreate, self).post(self, request, *args, **kwargs)
 

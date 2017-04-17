@@ -29,6 +29,13 @@ $(document).ready(function() {
       $('#myModal2').modal('toggle');
       toastr.success('your photo has been successfully added!'
       );
+
+      $( "#photos" ).prepend(
+        "<a data-lightbox='example-set' href='"+json.photo+"'>"+
+        "<img src='"+json.photo_small+"' class='img-responsive img-thumbnail' />"+
+        "</a>"
+      );
+      
     };
 
     // bind form using 'ajaxForm'

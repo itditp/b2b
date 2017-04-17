@@ -25,31 +25,14 @@ $(document).ready(function() {
         this.reset();
       }); //clean form
 
-      $('#item-form').html('');
+      $('#create_errors').html('');
       $('#myModal').modal('toggle');
       toastr.success(
         'Your item has been successfully created!'
       );
 
-      if (json.image) {
-        var imageUrl = "<img src='"+json.image+"'  class='img-responsive' />";
-      } else {
-        var imageUrl = "<img src='/static/images/default_image.jpg'  class='img-responsive' />";
-      }
+      $( "#object_list" ).load('/goods/ #object_list');
 
-      var toDetail = "<a href='"+json.url_detail+"'>" +"<button type='button' class='btn'>View</button>";
-
-      var idForRef = "delete-item-" + json.pk;
-      var to_delete = "<a id='"+idForRef+"'>"+ "<button type='button' class='btn'>Delete</button>"+"</a>"
-
-      $( ".row" ).prepend(
-        "<div id='item-"+json.pk+"' class='col-sm-4 category-item'>"+
-          '<div class="caption category-img">'+imageUrl+'</div>'+
-          '<h4>'+
-            toDetail+'</a>'+
-          '</h4>'+to_delete+
-        "</div>"
-      );
     }
 
     // bind form using 'ajaxForm'

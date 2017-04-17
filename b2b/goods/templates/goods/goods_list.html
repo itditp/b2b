@@ -24,25 +24,5 @@
       </div>
     </div>
   {% endif %}
-  <div id='object_list' align="center" class="row">
-    {% for obj in object_list %}
-      <div id='item-{{obj.pk}}' class="col-sm-4 category-item">
-        <div class="caption category-img">
-          {% if obj.image %}
-            <img src='{{ obj.image_small.url }}' class='img-responsive' />
-          {% else %}
-            <img src='{% static "images/default_image.jpg" %}' class='img-responsive' />
-          {% endif %}
-        </div>
-        <h4>
-          <a href='{{ obj.get_absolute_url }}'>
-            <button type="button" class="btn">View</button>
-          </a>
-        </h4>
-        <a id='delete-item-{{obj.pk}}'>
-          <button type="button" class="btn">Delete</button>
-        </a>
-      </div>
-    {% endfor %}
-  </div>
+  {% include 'goods/refresh_object_list.html' %}
 {% endblock %}

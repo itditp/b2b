@@ -14,10 +14,10 @@ $(document).ready(function() {
                type : "DELETE", // http method
                data : { pk : item_primary_key },
                success : function(json) {
-                 $('#item-'+item_primary_key).hide();
                  toastr.success(
                    'Your item has been successfully deleted!'
                  );
+                 $( "#object_list" ).load('/goods/ #object_list');
                },
 
                error : function(xhr,errmsg,err) {

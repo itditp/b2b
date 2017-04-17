@@ -16,12 +16,14 @@
     <link rel="stylesheet" href='{% static "lightbox/dist/css/lightbox.min.css" %}'>
   </head>
   <body>
+    <div align="center">
+      <ol class='breadcrumb'>
+          <li><a href='{% url "index" %}'>Home</a></li>
+          <li><a href='{% url "mails:contacts_index" %}'>Contacts</a></li>
+          <li><a href='{% url "goods:list" %}'>Goods</a></li>
+      </ol>
+    </div>
     <div align="center" class='container'>
-    <ol class='breadcrumb'>
-        <li><a href='{% url "index" %}'>Home</a></li>
-        <li><a href='{% url "mails:contacts_index" %}'>Contacts</a></li>
-        <li><a href='{% url "goods:list" %}'>Goods</a></li>
-    </ol>
       {% block content %}
       {% endblock content %}
       </div>
