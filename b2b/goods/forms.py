@@ -2,8 +2,8 @@ from django import forms
 from .models import Item
 import floppyforms as formsImage
 
-class ImageThumbnailFileInput(formsImage.ClearableFileInput):
-    template_name = 'goods/image_thumbnail.html'
+# class ImageThumbnailFileInput(formsImage.ClearableFileInput):
+#     template_name = 'goods/image_thumbnail.html'
 
 class NewItem(forms.ModelForm):
     class Meta():
@@ -12,7 +12,7 @@ class NewItem(forms.ModelForm):
             "title",
             "description",
             "price",
-            "image",
+            # "image",
         ]
         widgets = {
             'title': forms.TextInput(
@@ -20,6 +20,6 @@ class NewItem(forms.ModelForm):
             ),
             'description': forms.Textarea(
                 attrs={'required': True, 'placeholder': 'description...'}
-            ),
-            'image': ImageThumbnailFileInput
+            )
+            # 'image': ImageThumbnailFileInput
         }

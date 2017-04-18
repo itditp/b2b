@@ -1,6 +1,9 @@
 from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic import ListView
 from django.http import JsonResponse, Http404, HttpResponse
 import json
+from django.contrib.auth.mixins import LoginRequiredMixin
+from utils.decorators import ajax_required
 
 from .forms import NewPhoto
 from .models import Photo
@@ -37,10 +40,14 @@ class AjaxableResponseMixin(object):
         return response  # Request isn't ajax, send normal response
 
 
-class PhotoCreate(AjaxableResponseMixin, CreateView):
+class PhotoCreate(LoginRequiredMixin, AjaxableResponseMixin, CreateView):
     model = Photo
     form_class = NewPhoto
     template_name = 'photos/form_photo.html'
+
+    @ajax_required
+    def dispatch(self,request,*args,**kwargs):
+        return super(PhotoCreate,self).dispatch(request,*args,**kwargs)
 
     def post(self, request, *args, **kwargs):
         """
@@ -56,5 +63,19 @@ class PhotoCreate(AjaxableResponseMixin, CreateView):
                 return self.form_invalid(form)
         return super(PhotoCreate, self).post(self, request, *args, **kwargs)
 
-class PhotoDelete(DeleteView):
-    pass
+
+class PhotoDelete(LoginRequiredMixin, DeleteView):
+    model = Photo
+    success_url = '/'
+
+    @ajax_required
+    def dispatch(self,request,*args,**kwargs):
+        return super(PhotoDelete,self).dispatch(request,*args,**kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        if request.is_ajax():
+            self.object = self.get_object()
+            self.object.delete()
+            data = {'delete': 'ok'}
+            return JsonResponse(data)
+        return super(PhotoDelete, self).delete(self, request, *args, **kwargs)

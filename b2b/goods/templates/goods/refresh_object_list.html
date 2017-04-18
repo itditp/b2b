@@ -3,8 +3,8 @@
   {% for obj in object_list %}
     <div id='item-{{obj.pk}}' class="col-sm-4 category-item">
       <div class="caption category-img">
-        {% if obj.image %}
-          <img src='{{ obj.image_small.url }}' class='img-responsive' />
+        {% if obj.photos %}
+          <img src='{{ obj.get_avatar.image_middle.url}}' class='img-responsive img-thumbnail' />
         {% else %}
           <img src='{% static "images/default_image.jpg" %}' class='img-responsive' />
         {% endif %}
@@ -14,9 +14,11 @@
           <button type="button" class="btn">View</button>
         </a>
       </h4>
+      {% if user.is_authenticated %}
       <a id='delete-item-{{obj.pk}}'>
         <button type="button" class="btn">Delete</button>
       </a>
+      {% endif %}
     </div>
   {% endfor %}
 </div>

@@ -9,5 +9,5 @@ from .views import (
 
 urlpatterns = [
     url(r'^add/$', PhotoCreate.as_view(), name='add'),
-    url(r'^delete/$', PhotoDelete.as_view(), name='delete'),
+    url(r'^(?P<pk>\d+)/delete/$', PhotoDelete.as_view(), name='delete'),
 ]

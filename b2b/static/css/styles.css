@@ -15,3 +15,7 @@ body {
 .btn_margin {
   margin-bottom: 20px;
 }
+
+.photo_list-display {
+  display:inline-block;
+}

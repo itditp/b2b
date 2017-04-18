@@ -13,8 +13,8 @@ $(document).ready(function() {
     }
 
     function showResponse(json)  {
-      console.log(json);
-      console.log('YES');
+      // console.log(json);
+      // console.log('YES');
 
       if (json.errors) {
         $('#photo_errors').html('ERROR:'+json.errors.title);
@@ -30,12 +30,9 @@ $(document).ready(function() {
       toastr.success('your photo has been successfully added!'
       );
 
-      $( "#photos" ).prepend(
-        "<a data-lightbox='example-set' href='"+json.photo+"'>"+
-        "<img src='"+json.photo_small+"' class='img-responsive img-thumbnail' />"+
-        "</a>"
-      );
-      
+      var current_object_url = window.location.pathname + " #photos";
+      $( "#photos" ).load(current_object_url);
+
     };
 
     // bind form using 'ajaxForm'

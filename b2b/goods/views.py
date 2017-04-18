@@ -4,7 +4,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.http import JsonResponse, Http404, HttpResponse
 import json
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from utils.decorators import ajax_required
 
 from .forms import NewItem
 from .models import Item
@@ -62,25 +63,27 @@ class AjaxableResponseMixin(object):
         if self.request.is_ajax():
             # Request is ajax, send a json response
             url_detail = self.object.get_absolute_url()
+            # data = {
+            #     'pk': self.object.pk,
+            #     'title': self.object.title,
+            #     'url_detail': url_detail
+            # }
             data = {
-                'pk': self.object.pk,
-                'title': self.object.title,
-                'url_detail': url_detail
+                'status': 'successfully'
             }
-
-            if self.object.image:
-                data['image'] = self.object.image_small.url
-                return self.render_to_json_response(data)
-            else:
-                return self.render_to_json_response(data)
+            return self.render_to_json_response(data)
 
         return response  # Request isn't ajax, send normal response
 
 
-class ItemCreate(AjaxableResponseMixin, CreateView):
+class ItemCreate(LoginRequiredMixin, AjaxableResponseMixin, CreateView):
     model = Item
     form_class = NewItem
     template_name = 'goods/form_item.html'
+
+    @ajax_required
+    def dispatch(self,request,*args,**kwargs):
+        return super(ItemCreate,self).dispatch(request,*args,**kwargs)
 
     def post(self, request, *args, **kwargs):
         """
@@ -88,41 +91,22 @@ class ItemCreate(AjaxableResponseMixin, CreateView):
         POST variables and then checked for validity.
         """
         if request.is_ajax():
-            print('ajax')
-            form = NewItem(request.POST, request.FILES)
-            print(form)
+            form = NewItem(request.POST or None, request.FILES or None)
             if form.is_valid():
-                print('valiiid')
                 return self.form_valid(form)
             else:
-                print('qqqqq')
                 return self.form_invalid(form)
         return super(ItemCreate, self).post(self, request, *args, **kwargs)
 
 
-
-
-
-class ItemUpdate(UpdateView):
+class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
     template_name = 'goods/update_form.html'
     form_class = NewItem
 
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     Handles POST requests, instantiating a form instance with the passed
-    #     POST variables and then checked for validity.
-    #     """
-    #     if self.request.is_ajax():
-    #         form = self.get_form()
-    #         if form.is_valid():
-    #             return super(ItemUpdate, self).form_valid(form)
-    #         else:
-    #             return self.form_invalid(form)
-    #     return super(ItemUpdate, self).post(request, *args, **kwargs)
-    #
-    # def put(self, *args, **kwargs):
-    #     return super(ItemUpdate, self).post(*args, **kwargs)
+    @ajax_required
+    def dispatch(self,request,*args,**kwargs):
+        return super(ItemUpdate,self).dispatch(request,*args,**kwargs)
 
     def form_valid(self, form):
         """
@@ -131,14 +115,14 @@ class ItemUpdate(UpdateView):
         """
         if self.request.is_ajax():
             self.object = form.save()
+            # data = {
+            #     'pk': self.object.pk,
+            #     'title': self.object.title,
+            #     'description': self.object.description
+            # }
             data = {
-                'pk': self.object.pk,
-                'title': self.object.title,
-                'description': self.object.description
+                'status': 'successfully'
             }
-            image = self.object.image
-            if image:
-                data['image'] = image.url
             return JsonResponse(data)
         return super(ItemUpdate, self).form_valid(form)
 
@@ -155,9 +139,13 @@ class ItemUpdate(UpdateView):
         return super(ItemUpdate, self).form_invalid(form)
 
 
-class ItemDelete(DeleteView):
+class ItemDelete(LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/goods'
+
+    @ajax_required
+    def dispatch(self,request,*args,**kwargs):
+        return super(ItemDelete,self).dispatch(request,*args,**kwargs)
 
     def delete(self, request, *args, **kwargs):
         if request.is_ajax():

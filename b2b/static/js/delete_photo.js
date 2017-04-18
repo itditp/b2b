@@ -1,23 +1,25 @@
 $(document).ready(function() {
     // delete item
-    $("#object_list").on('click', 'a[id^=delete-item-]', function(){
-        var item_primary_key = $(this).attr('id').split('-')[2];
+    $("#photos").on('click', 'a[id^=delete-photo-]', function(){
+        var photo_primary_key = $(this).attr('id').split('-')[2];
         // console.log(post_primary_key)
-        delete_item(item_primary_key);
+        delete_item(photo_primary_key);
     });
 
-    function delete_item(item_primary_key){
+    function delete_item(photo_primary_key){
        if (confirm('are you sure you want to remove this item?')==true){
-           url = '/goods/pk/delete/'.replace('pk', Number(item_primary_key));
+           url = '/photos/pk/delete/'.replace('pk', Number(photo_primary_key));
            $.ajax({
                url : url, // the endpoint
                type : "DELETE", // http method
-               data : { pk : item_primary_key },
+               data : { pk : photo_primary_key },
                success : function(json) {
                  toastr.success(
                    'Your item has been successfully deleted!'
                  );
-                 $( "#object_list" ).load('/goods/ #object_list');
+
+                 var current_object_url = window.location.pathname + " #photos";
+                 $( "#photos" ).load(current_object_url);
                },
 
                error : function(xhr,errmsg,err) {

@@ -10,6 +10,11 @@ class Photo(models.Model):
     image = models.ImageField(
         upload_to='media/images/photos/'
     )
+    image_middle = ImageSpecField(source='image',
+                                 processors=[ResizeToFill(270, 220)],
+                                 format='PNG',
+                                 options={'quality': 60})
+
     image_small = ImageSpecField(source='image',
                                  processors=[ResizeToFill(100, 100)],
                                  format='PNG',

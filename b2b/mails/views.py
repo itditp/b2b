@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from django.core.mail import send_mail, BadHeaderError
 from django.http import JsonResponse, Http404, JsonResponse
 
-
+# url /contacts/send-email/
 class MessageView(FormView):
     template_name = 'mails/message_form.html'
     form_class = NewMessage
@@ -36,6 +36,7 @@ class MessageView(FormView):
             return JsonResponse(data)
         return super(MessageView, self).form_valid(form)
 
+# url: /contacts/
 class ContactsView(TemplateView):
     template_name = "mails/contacts.html"
 
