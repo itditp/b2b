@@ -64,7 +64,7 @@ class AjaxableResponseMixin(object):
         response = super(AjaxableResponseMixin, self).form_valid(form)
         if self.request.is_ajax():
             # Request is ajax, send a json response
-            url_detail = self.object.get_absolute_url()
+            # url_detail = self.object.get_absolute_url()
             # data = {
             #     'pk': self.object.pk,
             #     'title': self.object.title,
@@ -106,9 +106,9 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'goods/update_form.html'
     form_class = NewItem
 
-    @ajax_required
-    def dispatch(self,request,*args,**kwargs):
-        return super(ItemUpdate,self).dispatch(request,*args,**kwargs)
+    # @ajax_required
+    # def dispatch(self,request,*args,**kwargs):
+    #     return super(ItemUpdate,self).dispatch(request,*args,**kwargs)
 
     def form_valid(self, form):
         """
@@ -126,6 +126,7 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
                 'status': 'successfully'
             }
             return JsonResponse(data)
+        print("nOoo")
         return super(ItemUpdate, self).form_valid(form)
 
     def form_invalid(self, form):

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    var url = window.location.pathname + 'edit/';
     var options = { // target element(s) to be updated with server response
         success:   showResponse,
         error: showError
@@ -32,30 +31,21 @@ $(document).ready(function() {
         'Your item has been successfully updated!'
       );
 
-      var current_object_url = window.location.pathname + " #refresh_object";
-      var refresh_form_get = url + " #refresh_form";
+      var div_id_title = window.location.pathname + " #div_id_title";
+      $( "#div_id_title" ).load(div_id_title);
 
+      var div_id_description = window.location.pathname + " #div_id_description";
+      $( "#div_id_description" ).load(div_id_description);
+
+      var div_id_price = window.location.pathname + " #div_id_price";
+      $( "#div_id_price" ).load(div_id_price);
+
+      var current_object_url = window.location.pathname + " #refresh_object";
       $( "#refresh_object" ).load(current_object_url);
-      $( "#refresh_form" ).load(refresh_form_get); //refresh object in form
+
     };
 
     // bind form using 'ajaxForm'
     $('#update_item').ajaxForm(options);
+
 });
-
-
-
-// var current_url = window.location.pathname + " #refresh_object";
-// $( "#refresh_object" ).load(current_url);
-//
-// var refresh_form_title = url + " #id_title";
-// var refresh_form_price = url + " #id_price";
-// var refresh_form_image = url + " #id_image";
-// var refresh_form_description = url + " #id_description";
-// console.log('upppppp');
-// console.log(current_url);
-// console.log(refresh_form_get);
-// $( "#update_item" ).load(refresh_form_title);
-// $( "#id_price" ).load(refresh_form_price);
-// $( "#id_image" ).load(refresh_form_image);
-// $( "#id_description" ).load(refresh_form_description);
