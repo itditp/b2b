@@ -5,6 +5,7 @@ from imagekit.processors import ResizeToFill
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
+
 class Photo(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     image = models.ImageField(

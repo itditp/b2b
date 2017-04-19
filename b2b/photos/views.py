@@ -1,12 +1,11 @@
 from django.views.generic.edit import CreateView, DeleteView
-from django.views.generic import ListView
-from django.http import JsonResponse, Http404, HttpResponse
-import json
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from utils.decorators import ajax_required
 
 from .forms import NewPhoto
 from .models import Photo
+
 
 class AjaxableResponseMixin(object):
     """ Ajax form based on the django docs example.

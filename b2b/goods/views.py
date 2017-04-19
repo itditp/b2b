@@ -2,8 +2,8 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.http import JsonResponse, Http404, HttpResponse
-import json
+from django.http import JsonResponse
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from utils.decorators import ajax_required
 
@@ -23,6 +23,7 @@ class GoodsListView(ListView):
         context['form'] = NewItem
         return context
 
+
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'goods/detail.html'
@@ -37,6 +38,7 @@ class ItemDetailView(DetailView):
         }
         context['photo_form'] = NewPhoto(initial=initial_data)
         return context
+
 
 class AjaxableResponseMixin(object):
     """ Ajax form based on the django docs example.

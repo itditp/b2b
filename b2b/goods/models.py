@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from photos.models import Photo
 
+
 class Item(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -15,7 +16,6 @@ class Item(models.Model):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["-timestamp", "-updated"]
-
 
     def get_absolute_url(self):
         return reverse("goods:detail", kwargs={"pk": self.pk})

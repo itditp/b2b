@@ -1,5 +1,6 @@
 *.sqlite3
 media_cdn/
+static_cdn/
 bin/
 include/
 lib/
