@@ -29,11 +29,13 @@ ALLOWED_HOSTS = []
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-
-# for send_mail
-# python -m smtpd -n -c DebuggingServer localhost:1025
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+# for send_email:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mikhailbilida@gmail.com'
+EMAIL_HOST_PASSWORD = 'qkvainqvnsmocjcg'
+EMAIL_PORT = 587
 
 
 # Application definition
