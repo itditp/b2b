@@ -1,6 +1,9 @@
 # DEMO: http://chyngachanga.pythonanywhere.com/
+```
+http://chyngachanga.pythonanywhere.com/admin
 user:misha123
 password:mish123
+```
 # Install:
     ```sh
     $ git clone https://github.com/itditp/b2b-test.git
