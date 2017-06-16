@@ -15,7 +15,7 @@ password:mish123
 # Install:
     ```sh
     $ git clone https://github.com/itditp/b2b-test.git
-    $ cd b2b-test/
+    $ cd b2b
     $ virtualenv --python=python3.4 env
     $ source env/bin/activate
     $ pip install -r requirements.txt
